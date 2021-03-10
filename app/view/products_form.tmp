@@ -4,8 +4,7 @@
    	}
 </style>
 
-<form action = "/" method = "POST">
-	<input type = "hidden" name = "id"  value = "<?= $data['id'] ?? "" ?>">   
+<form action = "" method = "POST"> 
     <input type = "text" name = "name" value = "<?= $data['name'] ?? "" ?>">
 	<select name="category_id">
 	<?php foreach ($categories as $cat){ ?>
