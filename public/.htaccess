@@ -1,0 +1,12 @@
+AuthName "Dialog prompt"
+AuthType Basic
+AuthUserFile /home/isidea/www/poks.isidea.ru/d05.poks.isidea.ru/public/.htpasswd
+Require valid-user
+
+Options +FollowSymlinks
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule (.*) /index.php?path=$1 [L,QSA]
