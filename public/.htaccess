@@ -1,7 +1,7 @@
-AuthName "Dialog prompt"
-AuthType Basic
-AuthUserFile /home/isidea/www/poks.isidea.ru/d05.poks.isidea.ru/public/.htpasswd
-Require valid-user
+#AuthName "Dialog prompt"
+#AuthType Basic
+#AuthUserFile /home/isidea/www/poks.isidea.ru/d05.poks.isidea.ru/public/.htpasswd
+#Require valid-user
 
 Options +FollowSymlinks
 RewriteEngine On

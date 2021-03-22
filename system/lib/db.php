@@ -8,9 +8,10 @@ class DB
     }
 
     public function query($sql){
-        $result = $this->connect-> query($sql, PDO::FETCH_ASSOC);
+        $result = $this->connect->query($sql, PDO::FETCH_ASSOC);
 
         return $result->fetchAll();
     }
 }
+
 ?>

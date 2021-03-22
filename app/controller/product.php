@@ -1,6 +1,8 @@
 <?php
 require "../app/model/category.php";
 require "../app/model/product.php";
+require "../system/lib/pagination.php";
+require "../system/lib/link.php";
 
 class ProductController
 {
@@ -12,7 +14,32 @@ class ProductController
         $this->model = new ProductModul($db);
     }
     public function list(){
-        $data = $this->model->getAll();
+        $sort_columns = [
+            0 => false,
+            1 => "name",
+            2 => "category_name"
+        ];
+        $args['sort'] = $_GET['sort'] ?? "name";
+        $args['order'] = $_GET['order'] ?? "asc";
+
+        $args['item_per_page'] = 5;
+        $args['page'] = $_GET['page'] ?? 1 ;
+
+        $page_count = ceil($this->model->getTotal() / $args['item_per_page']);
+
+
+        $link = new Link($args);
+
+        if($args['page'] > $page_count){
+            header("Location:" . $link->render(['page' => $page_count]));
+        }
+
+        $pagination = new Pagination($args['page'], $page_count);
+        $page_list = $pagination->render($link);
+
+        echo $this->model->getTotal();
+
+        $data = $this->model->getAll($args);
         require "../app/view/products_table.tmp";
     }
 

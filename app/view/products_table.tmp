@@ -7,13 +7,43 @@
     }
     a{
         text-decoration : none;
+        color:blue;
     }
-
+    table th{
+        white-space: nowrap;
+        border: 1px solid black;
+    }
+    table th:hover{
+        color:#66f;
+    }
 </style>
 
 <a href="/product/add/">Добавить товар</a>
 
 <table>
+<tr>
+    <?php foreach($sort_columns as $column) { ?>
+    <th>
+    <?php if ($column) { ?>
+    <?php if($sort['by'] == $column && $sort['order'] == 'asc')?>
+    <?php if($sort['by'] == $column && $sort['order'] == "asc" ) {?>
+        <strong>↓</strong>
+        <?php } else { ?>
+            <a href ="/product/?sort=id&order=asc">↓</a>
+        <?php } ?>
+
+    <?php if($sort['by'] == $column && $sort['order'] == "desc" ) {?>
+        <strong>↑</strong>
+        <?php } else { ?>
+            <a href ="/product/?sort=id&order=desc">↑</a>
+            <?php } ?>
+        <?php } ?>
+    </th>
+    <?php } ?>
+    <th></th>
+    <th></th>
+
+</tr>
 <?php foreach ($data as $item){ ?> 
     <tr>
         <td><?= $item['id'] ?></td>
@@ -21,7 +51,8 @@
         <td><?= $item['category_name'] ?></td>
         <td><a href = "/product/<?=$item['id']?>/edit/">[e]</a></td>
         <td><a href = "/product/<?=$item['id']?>/delete/">[x]</a></td>
-        <? ?>
     </tr>
 <?php } ?>
 </table>
+
+<?= $page_list; ?>

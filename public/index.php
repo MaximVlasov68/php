@@ -1,6 +1,7 @@
 
 <?php
 
+session_start();
 
 // TEST
 
@@ -28,17 +29,34 @@ require "../config.php";
 
 require "../system/lib/db.php";
 
+require "../system/lib/auth.php";
+
 require "../app/controller/" . $controller_name . ".php";
 
 
 $db = new DB($db_name, $db_user, $db_pass);
 
-$controller = new $class_name($db);
-if(isset($id)) {
-    $controller->$action($id);
+if(!empty($_POST['login']) && !empty($_POST['password'])){
+    Auth::$db = $db;
+    Auth::attempt($_POST['login'], $_POST['password']);
+} 
+
+if (Auth::id()){
+
+    $controller = new $class_name($db);
+    if(isset($id)) {
+        $controller->$action($id);
+    } else {
+        $controller->$action();
+    }
 } else {
-    $controller->$action();
+    require "../app/view/login_form.php";
+    
 }
+
+
+
+
 /* 
 
 $product_model = new ProductModul($db);

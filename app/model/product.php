@@ -37,17 +37,41 @@ class ProductModul
 
     }
 
-    public function getAll(){
-        $result = $this->db-> query("     
-        SELECT 
-            p.id AS id,
-            p.name AS name,
-            c.name As category_name
-        FROM product p
-        LEFT JOIN category c ON(c.id = p.category_id)
-        ORDER BY id
-        ");
+    public function getTotal(){
+        $sql .= "
+                SELECT COUNT(*) as count
+                FROM product
+            ";
+        
+        $result = $this->db-> query($sql);     
+        return $result[0]['count'];
 
+    }
+
+    public function getAll($args){
+        $sql = ("SELECT 
+                    p.id AS id,
+                    p.name AS name,
+                    c.name As category_name
+                FROM product p
+                LEFT JOIN category c ON(c.id = p.category_id)
+                ");
+
+        if(!empty($args['sort'])){
+            $sql .= "ORDER BY " .$args['sort'] . " " . $args['order'];
+        }
+
+        if($args['item_per_page']) {
+            $sql .= " LIMIT "; 
+            
+            if($args['page']){
+                $sql .= (($args['page'] - 1) * $args['item_per_page']) . ", ";
+            }
+            $sql .= $args['item_per_page'];
+        }
+
+        //echo $sql;
+        $result = $this->db-> query($sql);     
         return $result;
          
     }
